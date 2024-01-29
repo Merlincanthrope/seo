@@ -48,10 +48,13 @@ class Seo {
 var seo = new Seo();
 
 class Sprite {
-  contructor({position}) {
-    this.position = position;
+  contructor(x, y, src) {
+    this.position = {
+      x: x,
+      y: y,
+    };
     this.image = new Image();
-    this.image.src = "assets/images/background1.png";
+    this.image.src = src;
   }
   
   draw() {
@@ -59,12 +62,7 @@ class Sprite {
   }
 }
 
-var background = new Sprite({
-  position: {
-    x: 0,
-    y: 0,
-  }
-});
+var background = new Sprite(0, 0, "assets/images/background1.png");
 
 var keys = {
   w: {
