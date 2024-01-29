@@ -1,32 +1,110 @@
-var canvas = document.getElementById("canvas");
+var canvas = document.getElementById("gameCanvas");
 var ctx = canvas.getContext("2d");
-var seoIdle = "/assets/images/seo-idle.png";
 var WIDTH = 800;
-var HEIGHT = 600;
-var gravityPull = 12;
+var HEIGHT = 650;
+canvas.width = 800;
+canvas.height = 650;
 
-var seo = {
-  width: 33,
-  height: 34,
-  x: 50,
-  y: HEIGHT - this.height,
-  runSpd: 15,
-  spd: 0,
+class Seo {
+  constructor() {
+    this.position = {
+      x: 50,
+      y: 595,
+    }
+    this.width = 55;
+    this.height = 55;
+    
+    this.sides = {
+      bottom: this.position.y + this.height,
+      top: this.position.y,
+      left: this.position.x,
+      right: this.position.x + this.width,
+    }
+    this.gravity = 1;
+    
+    this.velocity = {
+      x: 0,
+      y: 0,
+    }
+  }
+    
+  draw() {
+     ctx.fillStyle = "black";
+    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+  }
+    
+  update() {
+    this.position.y += this.velocity.y;
+    this.position.x += this.velocity.x;
+    this.sides.bottom = this.position.y + this.height;
+    if (this.sides.bottom + this.velocity.y < HEIGHT) {
+      this.velocity.y += this.gravity;
+    } else {
+      this.velocity.y = 0;
+      this.position.y = HEIGHT - this.height;
+    }
+  }
+}
+var seo = new Seo();
+
+var keys = {
+  w: {
+    pressed: false
+  },
+  a: {
+    pressed: false
+  },
+  d: {
+    pressed: false
+  }
 };
-ctx.drawImage(seoIdle, seo.x, seo.y);
 
-function drawSeo() {
-  ctx.drawImage(seoIdle, seo.x, seo.y);
+
+function animate() {
+  window.requestAnimationFrame(animate);
+  ctx.save();
+  ctx.fillStyle = "white";
+  ctx.fillRect(0, 0, WIDTH, HEIGHT);
+  
+  seo.velocity.x = 0;
+  if (keys.d.pressed) {
+    seo.velocity.x = 4;
+  } else if (keys.a.pressed) {
+    seo.velocity.x = -4;
+  }
+  
+  seo.draw();
+  seo.update();
 }
 
-function newPos(ent) {
-  ent.x += ent.spd;
-}
+animate();
 
-function update() {
-  ctx.clearRect(0, 0, WIDTH, HEIGHT);
-  newPos(seo);
-  drawSeo();
-}
+window.addEventListener("keydown", (event) => {
+  switch(event.key) {
+    case "a":
+      keys.a.pressed = true
+      
+    break;
+    case "d":
+      keys.d.pressed = true
+      
+    break;
+    case "w":
+      if (seo.velocity.y === 0) seo.velocity.y = -15;
+      
+    break;
+  }
+})
 
-setInterval(update, 10);
+window.addEventListener("keyup", (event) => {
+  switch(event.key) {
+    case "a":
+      keys.a.pressed = false;
+      
+    break;
+    case "d":
+      keys.d.pressed = false;
+      
+    break;
+  }
+});
