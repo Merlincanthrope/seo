@@ -81,10 +81,6 @@ var keys = {
 
 function animate() {
   window.requestAnimationFrame(animate);
-  ctx.save();
-  ctx.fillStyle = "white";
-  ctx.fillRect(0, 0, WIDTH, HEIGHT);
-  
   background.draw();
   
   seo.velocity.x = 0;
