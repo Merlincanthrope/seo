@@ -51,7 +51,7 @@ class Sprite {
   contructor({position}) {
     this.position = position;
     this.image = new Image();
-    this.image.src = "assets/images/background1.png";
+    this.image.src = "https://github.com/Merlincanthrope/seo.github.io/blob/main/assets/images/background1.png";
   }
   
   draw() {
