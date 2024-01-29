@@ -47,6 +47,25 @@ class Seo {
 }
 var seo = new Seo();
 
+class Sprite {
+  contructor({position}) {
+    this.position = position;
+    this.image = new Image();
+    this.image.src = "assets/images/background1.png";
+  }
+  
+  draw() {
+    ctx.drawImage(this.image, this.position.x, this.position.y)
+  }
+}
+
+var background = new Sprite({
+  position: {
+    x: 0,
+    y: 0,
+  }
+});
+
 var keys = {
   w: {
     pressed: false
@@ -65,6 +84,8 @@ function animate() {
   ctx.save();
   ctx.fillStyle = "white";
   ctx.fillRect(0, 0, WIDTH, HEIGHT);
+  
+  background.draw();
   
   seo.velocity.x = 0;
   if (keys.d.pressed) {
