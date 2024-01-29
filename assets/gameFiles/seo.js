@@ -1,6 +1,6 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
-var seoIdle = document.getElementById("seoIdle");
+var seoIdle = "/assets/images/seo-idle.png";
 var WIDTH = 800;
 var HEIGHT = 600;
 var gravityPull = 12;
