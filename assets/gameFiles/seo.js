@@ -48,13 +48,10 @@ class Seo {
 var seo = new Seo();
 
 class Sprite {
-  contructor(x, y, src) {
-    this.position = {
-      x: x,
-      y: y,
-    };
+  contructor({ position, imageSrc}) {
+    this.position = position;
     this.image = new Image();
-    this.image.src = src;
+    this.image.src = imageSrc;
   }
   
   draw() {
@@ -62,7 +59,13 @@ class Sprite {
   }
 }
 
-var background = new Sprite(0, 0, "assets/images/background1.png");
+var background = new Sprite({
+  position: {
+    x: 0,
+    y: 0
+  },
+  imageSrc: "assets/images/background1.png"
+});
 
 var keys = {
   w: {
@@ -91,8 +94,6 @@ function animate() {
   seo.draw();
   seo.update();
 }
-
-animate();
 
 window.addEventListener("keydown", (event) => {
   switch(event.key) {
