@@ -5,66 +5,33 @@ var HEIGHT = 650;
 canvas.width = 800;
 canvas.height = 650;
 
-class Seo {
-  constructor() {
-    this.position = {
-      x: 50,
-      y: 595,
-    }
-    this.width = 55;
-    this.height = 55;
-    
-    this.sides = {
-      bottom: this.position.y + this.height,
-      top: this.position.y,
-      left: this.position.x,
-      right: this.position.x + this.width,
-    }
-    this.gravity = 1;
-    
-    this.velocity = {
-      x: 0,
-      y: 0,
-    }
-  }
-    
-  draw() {
-     ctx.fillStyle = "black";
-    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
-  }
-    
-  update() {
-    this.position.y += this.velocity.y;
-    this.position.x += this.velocity.x;
-    this.sides.bottom = this.position.y + this.height;
-    if (this.sides.bottom + this.velocity.y < HEIGHT) {
-      this.velocity.y += this.gravity;
-    } else {
-      this.velocity.y = 0;
-      this.position.y = HEIGHT - this.height;
-    }
-  }
-}
-var seo = new Seo();
-
 class Sprite {
-  contructor({ position, imageSrc}) {
-    this.position = position;
-    this.image = new Image();
+  contructor({ 
+    position,
+    imageSrc,
+  }) {
+    this.position.x = position.x
+    this.image = new Image()
+    this.image.onload = () => {
+      this.loaded = true
+    }
     this.image.src = imageSrc;
+    this.loaded = false
   }
   
   draw() {
+    if (this.loaded) return;
     ctx.drawImage(this.image, this.position.x, this.position.y)
   }
 }
 
-var background = new Sprite({
+const seo = new Seo();
+const background = new Sprite({
   position: {
     x: 0,
-    y: 0
+    y: 0,
   },
-  imageSrc: "assets/images/background1.png"
+  imageSrc: "./images/background1.png",
 });
 
 var keys = {
@@ -94,6 +61,7 @@ function animate() {
   seo.draw();
   seo.update();
 }
+animate();
 
 window.addEventListener("keydown", (event) => {
   switch(event.key) {
