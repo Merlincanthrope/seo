@@ -13,6 +13,7 @@ const collisionBlocks = parsedCollisions.createObjectFrom2D();
 
 const seo = new Seo({
   collisionBlocks,
+  imageSrc: 'assets/images/seo-idle.png'
 });
 const background1 = new Sprite(0, 0, 'assets/images/background1.png');
 

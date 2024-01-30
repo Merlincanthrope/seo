@@ -1,11 +1,14 @@
 class Seo {
-    constructor({ collisionBlocks = [] }) {
+    constructor({ collisionBlocks = [], imageSrc }) {
       this.position = {
         x: 200,
         y: 300,
       }
       this.width = 50;
       this.height = 50;
+
+      this.image = new Image()
+      this.image.src = imageSrc
       
       this.sides = {
         bottom: this.position.y + this.height,
@@ -24,8 +27,7 @@ class Seo {
     }
 
     draw() {
-      ctx.fillStyle = 'purple'
-      ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
+      ctx.drawImage(this.image, this.position.x, this.position.y)
     }
 
     checkHorizontalCollision() {
