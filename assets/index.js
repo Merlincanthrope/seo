@@ -1,38 +1,15 @@
 var canvas = document.getElementById("gameCanvas");
 var ctx = canvas.getContext("2d");
+var bg1 = document.getElementById("background1");
 var WIDTH = 800;
 var HEIGHT = 650;
+var columns = WIDTH/50;
+var rows = HEIGHT/50;
 canvas.width = 800;
 canvas.height = 650;
 
-class Sprite {
-  contructor({ 
-    position,
-    imageSrc,
-  }) {
-    this.position.x = position.x
-    this.image = new Image()
-    this.image.onload = () => {
-      this.loaded = true
-    }
-    this.image.src = imageSrc;
-    this.loaded = false
-  }
-  
-  draw() {
-    if (this.loaded) return;
-    ctx.drawImage(this.image, this.position.x, this.position.y)
-  }
-}
-
 const seo = new Seo();
-const background = new Sprite({
-  position: {
-    x: 0,
-    y: 0,
-  },
-  imageSrc: "./images/background1.png",
-});
+const background1 = new Sprite(0, 0, 'assets/images/background1.png');
 
 var keys = {
   w: {
@@ -49,7 +26,11 @@ var keys = {
 
 function animate() {
   window.requestAnimationFrame(animate);
-  background.draw();
+  
+  background1.draw();
+  collisionblocks.forEach((collisionBlocks) => {
+    collisionBlocks.draw()
+  })
   
   seo.velocity.x = 0;
   if (keys.d.pressed) {
