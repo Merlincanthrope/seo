@@ -8,7 +8,12 @@ var rows = HEIGHT/50;
 canvas.width = 800;
 canvas.height = 650;
 
-const seo = new Seo();
+const parsedCollisions = collisionsLevel1.parse2D();
+const collisionBlocks = parsedCollisions.createObjectFrom2D();
+
+const seo = new Seo({
+  collisionBlocks,
+});
 const background1 = new Sprite(0, 0, 'assets/images/background1.png');
 
 var keys = {
@@ -28,7 +33,7 @@ function animate() {
   window.requestAnimationFrame(animate);
   
   background1.draw();
-  collisionblocks.forEach((collisionBlocks) => {
+  collisionBlocks.forEach((collisionBlocks) => {
     collisionBlocks.draw()
   })
   

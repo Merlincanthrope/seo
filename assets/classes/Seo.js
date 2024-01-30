@@ -1,5 +1,5 @@
 class Seo {
-    constructor() {
+    constructor({ collisionBlocks = [] }) {
       this.position = {
         x: 50,
         y: 595,
@@ -14,6 +14,8 @@ class Seo {
         right: this.position.x + this.width,
       }
       this.gravity = 1;
+
+      this.collisionBlocks = collisionBlocks
       
       this.velocity = {
         x: 0,
@@ -27,8 +29,25 @@ class Seo {
     }
       
     update() {
-      this.position.y += this.velocity.y;
       this.position.x += this.velocity.x;
+      // Check for horizontal collisions
+      for (let i = 0; i < this.collisionBlocks.length; i++) {
+        const collisionBlock = this.collisionBlocks[i]
+        // if colliding
+        if (this.position.x <= collisionBlock.position.x + collisionBlock.width &&
+          this.position.x + this.width >= collisionBlock.position.x &&
+          this.position.y + this.height >= collisionBlock.position.y &&
+          this.position.y <= collisionBlock.position.y + collisionBlock.height) {
+            // collision on horizontal axis on left side of Seo
+            if (this.velocity.x < -1) {
+              this.position.x = collisionBlock.position.x + collisionBlock.width + 0.01
+            }
+            if (this.velocity.x > 1) {
+              
+            }
+        }
+      }
+      this.position.y += this.velocity.y;
       this.sides.bottom = this.position.y + this.height;
       if (this.sides.bottom + this.velocity.y < HEIGHT) {
         this.velocity.y += this.gravity;
