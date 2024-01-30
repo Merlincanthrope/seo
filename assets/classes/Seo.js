@@ -22,14 +22,13 @@ class Seo {
         y: 0,
       }
     }
-      
+
     draw() {
-       ctx.fillStyle = "purple";
-      ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+      ctx.fillStyle = 'purple'
+      ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
-      
-    update() {
-      this.position.x += this.velocity.x;
+
+    checkHorizontalCollision() {
       // Check for horizontal collisions
       for (let i = 0; i < this.collisionBlocks.length; i++) {
         const collisionBlock = this.collisionBlocks[i]
@@ -50,11 +49,15 @@ class Seo {
             }
         }
       }
+    }
 
-      // insert gravity to collisions
-      this.velocity.y += this.gravity;
-      this.position.y += this.velocity.y;
+    insertGravity() {
+       // insert gravity to collisions
+       this.velocity.y += this.gravity;
+       this.position.y += this.velocity.y;
+    }
 
+    checkVerticalCollision() {
       // Check for vertical collisions
       for (let i = 0; i < this.collisionBlocks.length; i++) {
         const collisionBlock = this.collisionBlocks[i]
@@ -77,5 +80,12 @@ class Seo {
             }
         }
       }
+    }
+      
+    update() {
+      this.position.x += this.velocity.x;
+      this.checkHorizontalCollision();
+      this.insertGravity()
+      this.checkVerticalCollision();
     }
   }
