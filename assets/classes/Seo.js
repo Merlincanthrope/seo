@@ -2,7 +2,7 @@ class Seo {
     constructor({ collisionBlocks = [], imageSrc }) {
       this.position = {
         x: 200,
-        y: 300,
+        y: 490,
       }
       this.width = 50;
       this.height = 60;

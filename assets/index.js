@@ -15,14 +15,19 @@ const seo = new Seo({
   collisionBlocks,
   imageSrc: 'assets/images/seo-idle.png'
 });
-const background1 = new Sprite(0, 0, 'assets/images/background1.png');
+const background1 = new Sprite(0,
+  0,
+  'assets/images/background1.png',
+  1,
+);
 
 const doors = [
   new Sprite(
     400, 550,
     "assets/images/test-door-seo.png",
+    3,
   ),
-]
+];
 
 var keys = {
   w: {
@@ -47,6 +52,9 @@ function animate() {
 
   doors.forEach((door) => {
     door.draw()
+
+    ctx.fillStyle = "rgba(0, 225, 0, 0.5)"
+    ctx.fillRect(door.position.x, door.position.y, door.width, door.height)
   })
   
   seo.velocity.x = 0;
@@ -55,7 +63,7 @@ function animate() {
   } else if (keys.a.pressed) {
     seo.velocity.x = -4;
   }
-  
+
   seo.draw();
   seo.update();
 }
