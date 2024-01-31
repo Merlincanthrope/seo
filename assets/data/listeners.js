@@ -9,7 +9,7 @@ window.addEventListener("keydown", (event) => {
         
       break;
       case "w":
-        if (seo.velocity.y === 0) seo.velocity.y = -15;
+        if (seo.velocity.y === 0) seo.velocity.y = -17;
         
       break;
     }

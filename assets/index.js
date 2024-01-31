@@ -17,6 +17,13 @@ const seo = new Seo({
 });
 const background1 = new Sprite(0, 0, 'assets/images/background1.png');
 
+const doors = [
+  new Sprite(
+    400, 550,
+    "assets/images/test-door-seo.png",
+  ),
+]
+
 var keys = {
   w: {
     pressed: false
@@ -36,6 +43,10 @@ function animate() {
   background1.draw();
   collisionBlocks.forEach((collisionBlocks) => {
     collisionBlocks.draw()
+  })
+
+  doors.forEach((door) => {
+    door.draw()
   })
   
   seo.velocity.x = 0;

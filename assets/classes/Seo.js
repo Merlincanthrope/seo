@@ -5,7 +5,7 @@ class Seo {
         y: 300,
       }
       this.width = 50;
-      this.height = 50;
+      this.height = 60;
 
       this.image = new Image()
       this.image.src = imageSrc
@@ -27,7 +27,12 @@ class Seo {
     }
 
     draw() {
+      /*
       ctx.drawImage(this.image, this.position.x, this.position.y)
+      */
+
+      ctx.fillStyle = "purple"
+      ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
 
     checkHorizontalCollision() {
