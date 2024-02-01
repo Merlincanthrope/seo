@@ -17,14 +17,16 @@ window.addEventListener("keydown", (event) => {
         for (let i = 0; i < doors.length; i++) {
           const door = doors[i]
 
-          if (seo.position.x <= door.position.x + door.width &&
-            seo.position.x + seo.width >= door.position.x &&
-            seo.position.y + seo.height >= door.position.y &&
-            seo.position.y <= door.position.y + door.height
+          if (seo.hitbox.position.x + seo.hitbox.width <= door.position.x + door.width &&
+            seo.hitbox.position.x >= door.position.x &&
+            seo.hitbox.position.y + seo.hitbox.height >= door.position.y &&
+            seo.hitbox.position.y <= door.position.y + door.height
             ) {
               seo.velocity.x = 0;
               seo.velocity.y = 0;
               seo.preventInput = true
+              seo.switchSprite('enterDoor')
+              door.playAnim()
             }
         }
       

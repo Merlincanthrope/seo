@@ -46,6 +46,12 @@ const seo = new Seo({
       frameBuffer: 7,
       loop: false,
       imageSrc: "assets/images/seo-idle.png",
+      onComplete: () => {
+        gsap.to(overlay, {
+          opacity: 1,
+        });
+        console.log("Animation Complete")
+      }
     }
   }
 });
@@ -82,9 +88,15 @@ var keys = {
   },
   d: {
     pressed: false
+  },
+  e: {
+    pressed: false
   }
 };
 
+const overlay = {
+  opacity: 0,
+}
 
 function animate() {
   window.requestAnimationFrame(animate);
@@ -100,15 +112,14 @@ function animate() {
     ctx.fillStyle = "rgba(0, 225, 0, 0.5)"
     ctx.fillRect(door.position.x, door.position.y, door.width, door.height)
   })
-  
-  seo.velocity.x = 0;
-  if (keys.d.pressed) {
-    seo.switchSprite("moveRight")
-    seo.velocity.x = 4;
-  } else if (keys.a.pressed) {
-    seo.switchSprite("moveLeft")
-    seo.velocity.x = -4;
-  }
+
+  seo.inputHandler(keys);
+
+  ctx.save();
+  ctx.globalAlpha = overlay.opacity;
+  ctx.fillStyle = "black";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.restore();
 
   seo.draw();
   seo.update();

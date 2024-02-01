@@ -21,9 +21,11 @@ class Sprite {
         for (let key in this.animations) {
           const image = new Image()
           image.src = this.animations[key].imageSrc
+          this.animations[key].image = image
         }
       }
     }
+
     draw() {
       if (!this.loaded) return
       const cropbox = {
