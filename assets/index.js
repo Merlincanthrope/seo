@@ -13,20 +13,59 @@ const collisionBlocks = parsedCollisions.createObjectFrom2D();
 
 const seo = new Seo({
   collisionBlocks,
-  imageSrc: 'assets/images/seo-idle.png'
+  imageSrc: 'assets/images/seo-idle.png',
+  frameCount: 1,
+  frameBuffer: 7,
+  animations: {
+    idleLeft: {
+      frameCount: 1,
+      frameBuffer: 7,
+      loop: true,
+    },
+    idleRight: {
+      frameCount: 1,
+      frameBuffer: 7,
+      loop: true,
+    },
+    moveLeft: {
+      frameCount: 1,
+      frameBuffer: 7,
+      loop: true,
+    },
+    moveRight: {
+      frameCount: 1,
+      frameBuffer: 7,
+      loop: true,
+    },
+    enterDoor: {
+      frameCount: 1,
+      frameBuffer: 7,
+      loop: false,
+    }
+  }
 });
-const background1 = new Sprite(0,
-  0,
-  'assets/images/background1.png',
-  1,
-);
+const background1 = new Sprite({
+  position: {
+    x: 0,
+    y: 0,
+  },
+  imageSrc: 'assets/images/background1.png',
+  frameCount: 1,
+  frameBuffer: 5,
+});
 
 const doors = [
-  new Sprite(
-    400, 550,
-    "assets/images/test-door-seo.png",
-    3,
-  ),
+  new Sprite({
+    position: {
+      x: 400,
+      y: 450,
+    },
+    imageSrc: "assets/images/test-door-seo.png",
+    frameCount: 3,
+    frameBuffer: 10,
+    loop: false,
+    autoplay: false,
+  }),
 ];
 
 var keys = {

@@ -1,14 +1,12 @@
-class Seo {
-    constructor({ collisionBlocks = [], imageSrc }) {
+class Seo extends Sprite {
+    constructor({ collisionBlocks = [], imageSrc, frameCount, animations, loop }) {
+      super({ imageSrc, frameCount, animations, loop })
       this.position = {
         x: 200,
         y: 490,
       }
       this.width = 50;
       this.height = 60;
-
-      this.image = new Image()
-      this.image.src = imageSrc
       
       this.sides = {
         bottom: this.position.y + this.height,
@@ -24,15 +22,6 @@ class Seo {
         x: 0,
         y: 0,
       }
-    }
-
-    draw() {
-      /*
-      ctx.drawImage(this.image, this.position.x, this.position.y)
-      */
-
-      ctx.fillStyle = "purple"
-      ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
 
     checkHorizontalCollision() {
