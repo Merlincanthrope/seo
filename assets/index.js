@@ -21,26 +21,31 @@ const seo = new Seo({
       frameCount: 1,
       frameBuffer: 7,
       loop: true,
+      imageSrc: "assets/images/seo-idle-inverted.png",
     },
     idleRight: {
       frameCount: 1,
       frameBuffer: 7,
       loop: true,
+      imageSrc: "assets/images/seo-idle.png",
     },
     moveLeft: {
       frameCount: 1,
       frameBuffer: 7,
       loop: true,
+      imageSrc: "assets/images/seo-idle-inverted.png",
     },
     moveRight: {
       frameCount: 1,
       frameBuffer: 7,
       loop: true,
+      imageSrc: "assets/images/seo-idle.png",
     },
     enterDoor: {
       frameCount: 1,
       frameBuffer: 7,
       loop: false,
+      imageSrc: "assets/images/seo-idle.png",
     }
   }
 });
@@ -98,8 +103,10 @@ function animate() {
   
   seo.velocity.x = 0;
   if (keys.d.pressed) {
+    seo.switchSprite("moveRight")
     seo.velocity.x = 4;
   } else if (keys.a.pressed) {
+    seo.switchSprite("moveLeft")
     seo.velocity.x = -4;
   }
 

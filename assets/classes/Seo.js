@@ -5,8 +5,8 @@ class Seo extends Sprite {
         x: 200,
         y: 490,
       }
-      this.width = 50;
-      this.height = 60;
+      this.width = 75;
+      this.height = 75;
       
       this.sides = {
         bottom: this.position.y + this.height,
@@ -81,7 +81,25 @@ class Seo extends Sprite {
     update() {
       this.position.x += this.velocity.x;
       this.checkHorizontalCollision();
-      this.insertGravity()
+      this.insertGravity();
+
+      this.hitbox = {
+        position: {
+          x: this.position.x,
+          y: this.position.y,
+        },
+        width: 50,
+        height: 70,
+      }
+
+      ctx.fillStyle = "rgba(225, 0, 225, 0.5)"
+      ctx.fillRect(
+        this.hitbox.position.x,
+        this.hitbox.position.y,
+        this.hitbox.width,
+        this.hitbox.height,
+      )
+
       this.checkVerticalCollision();
     }
   }

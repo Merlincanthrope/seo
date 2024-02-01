@@ -16,6 +16,13 @@ class Sprite {
       this.animations = animations
       this.loop = loop
       this.currentAnim
+
+      if (this.animations) {
+        for (let key in this.animations) {
+          const image = new Image()
+          image.src = this.animations[key].imageSrc
+        }
+      }
     }
     draw() {
       if (!this.loaded) return
@@ -36,7 +43,7 @@ class Sprite {
         this.position.x,
         this.position.y,
         this.width,
-        this.height
+        this.height,
       )
 
       this.updateFrames();
