@@ -14,35 +14,35 @@ const collisionBlocks = parsedCollisions.createObjectFrom2D();
 const seo = new Seo({
   collisionBlocks,
   imageSrc: 'assets/images/seo-idle.png',
-  frameCount: 1,
+  frameCount: 8,
   frameBuffer: 7,
   animations: {
     idleLeft: {
-      frameCount: 1,
+      frameCount: 8,
       frameBuffer: 7,
       loop: true,
       imageSrc: "assets/images/seo-idle-inverted.png",
     },
     idleRight: {
-      frameCount: 1,
+      frameCount: 8,
       frameBuffer: 7,
       loop: true,
       imageSrc: "assets/images/seo-idle.png",
     },
     moveLeft: {
-      frameCount: 1,
+      frameCount: 8,
       frameBuffer: 7,
       loop: true,
       imageSrc: "assets/images/seo-idle-inverted.png",
     },
     moveRight: {
-      frameCount: 1,
+      frameCount: 8,
       frameBuffer: 7,
       loop: true,
       imageSrc: "assets/images/seo-idle.png",
     },
     enterDoor: {
-      frameCount: 1,
+      frameCount: 8,
       frameBuffer: 7,
       loop: false,
       imageSrc: "assets/images/seo-idle.png",
