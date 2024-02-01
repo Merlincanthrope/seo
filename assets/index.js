@@ -11,7 +11,11 @@ canvas.height = 650;
 const parsedCollisions = collisionsLevel1.parse2D();
 const collisionBlocks = parsedCollisions.createObjectFrom2D();
 
-const seo = new Seo({
+const overlay = {
+  opacity: 0
+};
+
+const seo = new Seo ({
   collisionBlocks,
   imageSrc: 'assets/images/seo-idle.png',
   frameCount: 8,
@@ -47,10 +51,10 @@ const seo = new Seo({
       loop: false,
       imageSrc: "assets/images/seo-idle.png",
       onComplete: () => {
-        gsap.to(overlay, {
-          opacity: 1,
-        });
         console.log("Animation Complete")
+        gsap.to(overlay, {
+          opacity: 1
+        })
       }
     }
   }
@@ -94,10 +98,6 @@ var keys = {
   }
 };
 
-const overlay = {
-  opacity: 0,
-};
-
 function animate() {
   window.requestAnimationFrame(animate);
   
@@ -121,7 +121,7 @@ function animate() {
   ctx.save();
   ctx.globalAlpha = overlay.opacity;
   ctx.fillStyle = "black";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillRect(0, 0, WIDTH, HEIGHT);
   ctx.restore();
 }
 animate();
