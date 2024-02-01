@@ -96,7 +96,7 @@ var keys = {
 
 const overlay = {
   opacity: 0,
-}
+};
 
 function animate() {
   window.requestAnimationFrame(animate);
@@ -115,13 +115,13 @@ function animate() {
 
   seo.inputHandler(keys);
 
+  seo.draw();
+  seo.update();
+
   ctx.save();
   ctx.globalAlpha = overlay.opacity;
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   ctx.restore();
-
-  seo.draw();
-  seo.update();
 }
 animate();
