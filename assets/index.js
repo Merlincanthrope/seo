@@ -49,6 +49,7 @@ const seo = new Seo ({
       onComplete: () => {
         console.log("Animation Complete")
         gsap.to(overlay, {
+          duration: 1,
           opacity: 1,
         });
         console.log(overlay.opacity)
@@ -65,15 +66,22 @@ const background1 = new Sprite({
   frameCount: 1,
   frameBuffer: 5,
 });
-const overlay = new Sprite({
-  position: {
-    x: 0,
-    y: 0,
-  },
-  imageSrc: 'assets/images/overlay.png',
-  frameCount: 4,
-  frameBuffer: 5,
-})
+
+const overlay = {
+  opacity: 0,
+}
+
+// const overlay = new Sprite({
+//   position: {
+//     x: 0,
+//     y: 0,
+//   },
+//   imageSrc: 'assets/images/overlay.png',
+//   frameCount: 4,
+//   frameBuffer: 5,
+//   loop: false,
+//   autoplay: false,
+// })
 
 const doors = [
   new Sprite({
@@ -119,7 +127,7 @@ function animate() {
     // ctx.fillRect(door.position.x, door.position.y, door.width, door.height)
   })
 
-  overlay.draw();
+  // overlay.draw();
 
   seo.inputHandler(keys);
 
@@ -127,7 +135,7 @@ function animate() {
   seo.update();
 
   ctx.save();
-  ctx.globalAlpha = overlayOpacity;
+  ctx.globalAlpha = overlay.opacity;
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   ctx.restore();

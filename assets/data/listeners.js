@@ -10,10 +10,12 @@ window.addEventListener("keydown", (event) => {
         
       break;
       case "w":
+        keys.w.pressed = true;
         if (seo.velocity.y === 0) seo.velocity.y = -17;
         
       break;
       case "e":
+        keys.e.pressed = true
         for (let i = 0; i < doors.length; i++) {
           const door = doors[i]
 
@@ -27,6 +29,7 @@ window.addEventListener("keydown", (event) => {
               seo.preventInput = true
               seo.switchSprite('enterDoor')
               door.playAnim()
+              overlay.playAnim()
             }
         }
       
@@ -43,6 +46,14 @@ window.addEventListener("keydown", (event) => {
       case "d":
         keys.d.pressed = false;
         
+      break;
+      case "w":
+        keys.w.pressed = false;
+
+      break;
+      case "e":
+        keys.e.pressed = false;
+
       break;
     }
   });

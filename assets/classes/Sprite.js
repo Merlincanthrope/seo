@@ -64,6 +64,7 @@ class Sprite {
         else if (this.loop) this.currentFrame = 0;
       }
 
+      
       if (this.currentAnimation?.onComplete) {
         if (this.currentFrame === this.frameCount - 1 && !this.currentAnimation.isActive) {
           this.currentAnimation.onComplete();
