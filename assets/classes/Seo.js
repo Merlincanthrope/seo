@@ -25,21 +25,21 @@ class Seo extends Sprite {
     }
 
     inputHandler(keys) {
-      if (seo.preventInput) return
-      seo.velocity.x = 0;
+      if (this.preventInput) return
+      this.velocity.x = 0;
       if (keys.d.pressed) {
-        seo.switchSprite('moveRight')
-        seo.velocity.x = 4;
-        seo.lastDirection = 'right'
+        this.switchSprite('moveRight')
+        this.velocity.x = 4;
+        this.lastDirection = 'right'
       } else if (keys.a.pressed) {
-        seo.switchSprite('moveLeft')
-        seo.velocity.x = -4;
-        seo.lastDirection = 'left'
+        this.switchSprite('moveLeft')
+        this.velocity.x = -4;
+        this.lastDirection = 'left'
       } else {
-        if (seo.lastDirection === 'left') {
-          seo.switchSprite('idleLeft')
-        } else if (seo.lastDirection === 'right') {
-          seo.switchSprite('idleRight')
+        if (this.lastDirection === 'left') {
+          this.switchSprite('idleLeft')
+        } else if (this.lastDirection === 'right') {
+          this.switchSprite('idleRight')
         }
       }
     }
@@ -121,14 +121,17 @@ class Seo extends Sprite {
     }
 
     switchSprite(name) {
+      if (this.animations.image) {
+        console.log(this.animations.image)
       if (this.image === this.animations.image) return
       this.currentFrame = 0;
       this.image = this.animations[name].image;
       this.frameCount = this.animations[name].frameCount;
       this.frameBuffer = this.animations[name].frameBuffer;
-      this.currentAnim = this.animations[name]
       this.loop = this.animations[name].loop
+      this.currentAnimation = this.animations[name];
     }
+  }
       
     update() {
       this.position.x += this.velocity.x;

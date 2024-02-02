@@ -51,6 +51,7 @@ const seo = new Seo ({
         gsap.to(overlay, {
           opacity: 1,
         });
+        console.log(overlay.opacity)
       }
     }
   }
@@ -64,6 +65,15 @@ const background1 = new Sprite({
   frameCount: 1,
   frameBuffer: 5,
 });
+const overlay = new Sprite({
+  position: {
+    x: 0,
+    y: 0,
+  },
+  imageSrc: 'assets/images/overlay.png',
+  frameCount: 4,
+  frameBuffer: 5,
+})
 
 const doors = [
   new Sprite({
@@ -94,10 +104,6 @@ var keys = {
   }
 };
 
-const overlay = {
-  opacity: 0,
-};
-
 function animate() {
   window.requestAnimationFrame(animate);
   
@@ -109,9 +115,11 @@ function animate() {
   doors.forEach((door) => {
     door.draw()
 
-    ctx.fillStyle = "rgba(0, 225, 0, 0.5)"
-    ctx.fillRect(door.position.x, door.position.y, door.width, door.height)
+    // ctx.fillStyle = "rgba(0, 225, 0, 0.5)"
+    // ctx.fillRect(door.position.x, door.position.y, door.width, door.height)
   })
+
+  overlay.draw();
 
   seo.inputHandler(keys);
 

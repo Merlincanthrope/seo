@@ -15,7 +15,7 @@ class Sprite {
       this.frameBuffer = frameBuffer
       this.animations = animations
       this.loop = loop
-      this.currentAnim
+      this.currentAnimation
 
       if (this.animations) {
         for (let key in this.animations) {
@@ -64,10 +64,10 @@ class Sprite {
         else if (this.loop) this.currentFrame = 0;
       }
 
-      if (this.currentAnim?.onComplete) {
-        if (this.currentFrame === this.frameCount - 1 && !this.currentAnim.isActive) {
-          this.currentAnim.onComplete();
-          this.currentAnim.isActive = true;
+      if (this.currentAnimation?.onComplete) {
+        if (this.currentFrame === this.frameCount - 1 && !this.currentAnimation.isActive) {
+          this.currentAnimation.onComplete();
+          this.currentAnimation.isActive = true;
         }
       }
     }
