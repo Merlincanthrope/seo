@@ -1,3 +1,20 @@
+function onComplete() {
+  console.log("Animation Complete")
+  gsap.to(overlay, {
+    opacity: 1,
+    onComplete: () => {
+      levels[level].init()
+      gsap.to(overlay, {
+        opacity: 0,
+      })
+    },
+   })
+   console.log("Overlay has completed its level switch sequence")
+   level++
+  console.log("Current level is " + level)
+}
+
+
 class Sprite {
     constructor({ position, imageSrc, frameCount = 1, frameBuffer = 5, animations, loop = true }) {
       this.position = position
@@ -15,7 +32,13 @@ class Sprite {
       this.frameBuffer = frameBuffer
       this.animations = animations
       this.loop = loop
-      this.currentAnimation
+      this.currentAnimation = {
+        onComplete: () => {
+          onComplete()
+        }
+      }
+
+      this.onCompleteLogged = false
 
       if (this.animations) {
         for (let key in this.animations) {
@@ -64,11 +87,16 @@ class Sprite {
         else if (this.loop) this.currentFrame = 0;
       }
 
-      
+      // console.log(this.currentAnimation?.onComplete)
       if (this.currentAnimation?.onComplete) {
         if (this.currentFrame === this.frameCount - 1 && !this.currentAnimation.isActive) {
           this.currentAnimation.onComplete();
           this.currentAnimation.isActive = true;
+        }
+      } else {
+        if (!this.onCompleteLogged) {
+          console.log("this.currentAnimation.onComplete does not exist.")
+          this.onCompleteLogged = true
         }
       }
     }

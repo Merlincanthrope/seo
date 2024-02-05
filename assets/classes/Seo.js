@@ -2,8 +2,8 @@ class Seo extends Sprite {
     constructor({ collisionBlocks = [], imageSrc, frameCount, animations, loop }) {
       super({ imageSrc, frameCount, animations, loop })
       this.position = {
-        x: 200,
-        y: 400,
+        x: 150,
+        y: 475,
       }
       this.width = 100;
       this.height = 100;
@@ -22,6 +22,7 @@ class Seo extends Sprite {
         x: 0,
         y: 0,
       }
+      this.currentAnimationLogged = false
     }
 
     inputHandler(keys) {
@@ -40,6 +41,19 @@ class Seo extends Sprite {
           this.switchSprite('idleLeft')
         } else if (this.lastDirection === 'right') {
           this.switchSprite('idleRight')
+        }
+      }
+      if (keys.j.pressed) {
+        if (this.lastDirection === "right") {
+          attacks.lightAttack.right()
+        } else if (this.lastDirection === "left") {
+          attacks.lightAttack.left()
+        }
+      } else if (keys.k.pressed) {
+        if (this.lastDirection === "right") {
+          attacks.heavyAttack.right()
+        } else if (this.lastDirection === "left") {
+          attacks.heavyAttack.left()
         }
       }
     }
@@ -121,17 +135,14 @@ class Seo extends Sprite {
     }
 
     switchSprite(name) {
-      if (this.animations.image) {
-        console.log(this.animations.image)
-      if (this.image === this.animations.image) return
+      if (this.image === this.animations[name].image) return
       this.currentFrame = 0;
       this.image = this.animations[name].image;
       this.frameCount = this.animations[name].frameCount;
       this.frameBuffer = this.animations[name].frameBuffer;
-      this.loop = this.animations[name].loop
+      this.loop = this.animations[name].loop;
       this.currentAnimation = this.animations[name];
     }
-  }
       
     update() {
       this.position.x += this.velocity.x;
@@ -140,6 +151,8 @@ class Seo extends Sprite {
       this.insertGravity();
       this.updateHitbox();
 
+      // Seo Hitbox / Player Hitbox
+      /*
       ctx.fillStyle = "rgba(200, 0, 200, 0.5)"
       ctx.fillRect(
         this.hitbox.position.x,
@@ -147,6 +160,7 @@ class Seo extends Sprite {
         this.hitbox.width,
         this.hitbox.height,
       )
+      */
       this.checkVerticalCollision();
     }
   }

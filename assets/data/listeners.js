@@ -29,11 +29,27 @@ window.addEventListener("keydown", (event) => {
               seo.preventInput = true
               seo.switchSprite('enterDoor')
               door.playAnim()
-              overlay.playAnim()
+              // overlay.playAnim()
             }
         }
       
-      break
+      break;
+      case "j":
+        keys.j.pressed = true;
+        
+      break;
+      case "k":
+        keys.k.pressed = true;
+
+      break;
+      case "p":
+        if (!keys.p.pressed) {
+          keys.p.pressed = true;
+          getStats()
+
+        } else {
+          keys.p.pressed = false
+        }
     }
   })
   
@@ -53,6 +69,14 @@ window.addEventListener("keydown", (event) => {
       break;
       case "e":
         keys.e.pressed = false;
+
+      break;
+      case "j":
+        keys.j.pressed = false;
+
+      break;
+      case "k":
+        keys.k.pressed = false;
 
       break;
     }
