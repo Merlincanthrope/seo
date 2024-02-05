@@ -15,7 +15,7 @@ let collisionBlocks
 let background
 let doors
 let seo
-let enemies
+// let enemies
 
 
 let level = 1
@@ -87,6 +87,49 @@ let levels = {
         }
       });
 
+      // enemies = [ 
+      //   new Enemy({
+      //     position: {
+      //       x: 450,
+      //       y: 475,
+      //     },
+      //     offset: {
+      //       x: 22,
+      //       y: 22,
+      //     },
+      //     frameCount: 8,
+      //     frameBuffer: 7,
+      //     animations: {
+      //       idleLeft: {
+      //         frameCount: 8,
+      //         frameBuffer: 7,
+      //         loop: true,
+      //         imageSrc: "assets/images/seo-idle-inverted.png",
+      //       },
+      //       idleRight: {
+      //         frameCount: 8,
+      //         frameBuffer: 7,
+      //         loop: true,
+      //         imageSrc: "assets/images/seo-idle.png",
+      //       },
+      //       moveLeft: {
+      //         frameCount: 8,
+      //         frameBuffer: 7,
+      //         loop: true,
+      //         imageSrc: "assets/images/seo-idle-inverted.png",
+      //       },
+      //       moveRight: {
+      //         frameCount: 8,
+      //         frameBuffer: 7,
+      //         loop: true,
+      //         imageSrc: "assets/images/seo-idle.png",
+      //       },
+      //     },
+      //     loop: true,
+      //     color: 'red'
+      //   }),
+      // ];
+      
       parsedCollisions = collisionsLevel1.parse2D();
       collisionBlocks = parsedCollisions.createObjectFrom2D();
       seo.collisionBlocks = collisionBlocks
@@ -111,40 +154,6 @@ let levels = {
           frameBuffer: 10,
           loop: false,
           autoplay: false,
-        }),
-      ];
-      enemies = [
-        new Enemy({
-          collisionBlocks,
-          imageSrc: "assets/images/seo-idle.png",
-          frameCount: 8,
-          frameBuffer: 7,
-          animations: {
-            idleLeft: {
-              frameCount: 8,
-              frameBuffer: 7,
-              loop: true,
-              imageSrc: "assets/images/seo-idle-inverted.png",
-            },
-            idleRight: {
-              frameCount: 8,
-              frameBuffer: 7,
-              loop: true,
-              imageSrc: "assets/images/seo-idle.png",
-            },
-            moveLeft: {
-              frameCount: 8,
-              frameBuffer: 7,
-              loop: true,
-              imageSrc: "assets/images/seo-idle-inverted.png",
-            },
-            moveRight: {
-              frameCount: 8,
-              frameBuffer: 7,
-              loop: true,
-              imageSrc: "assets/images/seo-idle.png",
-            },
-          },
         }),
       ];
     }
@@ -244,44 +253,6 @@ let levels = {
           autoplay: false,
         }),
       ];
-      enemies = [
-        new Enemy({
-          position: {
-            x: 450,
-            y: 450,
-          },
-          collisionBlocks,
-          imageSrc: "assets/images/seo-idle.png",
-          frameCount: 8,
-          frameBuffer: 7,
-          animations: {
-            idleLeft: {
-              frameCount: 8,
-              frameBuffer: 7,
-              loop: true,
-              imageSrc: "assets/images/seo-idle-inverted.png",
-            },
-            idleRight: {
-              frameCount: 8,
-              frameBuffer: 7,
-              loop: true,
-              imageSrc: "assets/images/seo-idle.png",
-            },
-            moveLeft: {
-              frameCount: 8,
-              frameBuffer: 7,
-              loop: true,
-              imageSrc: "assets/images/seo-idle-inverted.png",
-            },
-            moveRight: {
-              frameCount: 8,
-              frameBuffer: 7,
-              loop: true,
-              imageSrc: "assets/images/seo-idle.png",
-            },
-          },
-        }),
-      ];
     }
   },
   3: {
@@ -376,44 +347,6 @@ let levels = {
           frameBuffer: 10,
           loop: false,
           autoplay: false,
-        }),
-      ];
-      enemies = [
-        new Enemy({
-          position: {
-            x: 450,
-            y: 450,
-          },
-          collisionBlocks,
-          imageSrc: "assets/images/seo-idle.png",
-          frameCount: 8,
-          frameBuffer: 7,
-          animations: {
-            idleLeft: {
-              frameCount: 8,
-              frameBuffer: 7,
-              loop: true,
-              imageSrc: "assets/images/seo-idle-inverted.png",
-            },
-            idleRight: {
-              frameCount: 8,
-              frameBuffer: 7,
-              loop: true,
-              imageSrc: "assets/images/seo-idle.png",
-            },
-            moveLeft: {
-              frameCount: 8,
-              frameBuffer: 7,
-              loop: true,
-              imageSrc: "assets/images/seo-idle-inverted.png",
-            },
-            moveRight: {
-              frameCount: 8,
-              frameBuffer: 7,
-              loop: true,
-              imageSrc: "assets/images/seo-idle.png",
-            },
-          },
         }),
       ];
     }
@@ -636,11 +569,11 @@ function animate() {
     */
   })
 
-  enemies.forEach((enemy) => {
-    enemy.draw()
-    enemy.update()
-    console.log("drawing enemies")
-  })
+  // enemies.forEach((enemy) => {
+  //   enemy.draw()
+  //   enemy.update()
+  //   console.log("drawing enemies")
+  // })
 
   seo.inputHandler(keys);
 
@@ -655,4 +588,5 @@ function animate() {
 }
 
 levels[level].init();
+console.log("Got Level Data")
 animate();
