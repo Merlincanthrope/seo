@@ -15,6 +15,7 @@ let collisionBlocks
 let background
 let doors
 let seo
+let enemies
 
 
 let level = 1
@@ -105,13 +106,26 @@ let levels = {
             x: 525,
             y: 450,
           },
-          imageSrc: "assets/images/test-door-seo.png",
+          imageSrc: "assets/images/seo-idle-inverted.png",
           frameCount: 3,
           frameBuffer: 10,
           loop: false,
           autoplay: false,
         }),
       ];
+      enemies = [
+        new Enemy({
+          position: {
+            x: 450,
+            y: 450,
+          },
+          collisionBlocks,
+          imageSrc: "assets/images/seo-idle.png",
+          frameCount: 8,
+          frameBuffer: 7,
+        }),
+      ];
+      enemies[0].position.x = 450
     }
   },
   2: {
@@ -388,31 +402,63 @@ const attacks = {
     },
     left: () => {
 
+      let attackBoxes = {
+        attackbox1: {
+          x: seo.hitbox.position.x - 47,
+          y: seo.hitbox.position.y - 20,
+          width: 55,
+          height: 12.5,
+        },
+        attackbox2: {
+          x: seo.hitbox.position.x - 72,
+          y: seo.hitbox.position.y + seo.hitbox.height/2 - 40,
+          width: 60,
+          height: 20,
+        },
+        attackbox3: {
+          x: seo.hitbox.position.x - 97,
+          y: seo.hitbox.position.y + seo.hitbox.height/2 - 20,
+          width: 80,
+          height: 30,
+        },
+        attackbox4: {
+          x: seo.hitbox.position.x - 62,
+          y: seo.hitbox.position.y + seo.hitbox.height/2 + 10,
+          width: 50,
+          height: 10,
+        },
+      }
+
+      if (this.hitbox.position.x <= collisionBlock.position.x + collisionBlock.width &&
+        this.hitbox.position.x + this.hitbox.width >= collisionBlock.position.x &&
+      this.hitbox.position.y + this.hitbox.height >= collisionBlock.position.y &&
+      this.hitbox.position.y <= collisionBlock.position.y + collisionBlock.height)
+
       //Hitbox Visualized Heavy Left
       ctx.fillStyle = "rgba(255, 255, 0, 0.5)"
       ctx.fillRect(
-        seo.hitbox.position.x - 47,
-        seo.hitbox.position.y - 20,
-        55,
-        12.5
+        attackBoxes.attackbox1.x,
+        attackBoxes.attackbox1.y,
+        attackBoxes.attackbox1.width,
+        attackBoxes.attackbox1.height,
       )
       ctx.fillRect(
-        seo.hitbox.position.x - 72,
-        seo.hitbox.position.y + seo.hitbox.height/2 - 40,
-        60,
-        20
+        attackBoxes.attackbox2.x,
+        attackBoxes.attackbox2.y,
+        attackBoxes.attackbox2.width,
+        attackBoxes.attackbox2.height,
       )
       ctx.fillRect(
-        seo.hitbox.position.x - 97,
-        seo.hitbox.position.y + seo.hitbox.height/2 - 20,
-        80,
-        30
+        attackBoxes.attackbox3.x,
+        attackBoxes.attackbox3.y,
+        attackBoxes.attackbox3.width,
+        attackBoxes.attackbox3.height,
       )
       ctx.fillRect(
-        seo.hitbox.position.x - 62,
-        seo.hitbox.position.y + seo.hitbox.height/2 + 10,
-        50,
-        10
+        attackBoxes.attackbox4.x,
+        attackBoxes.attackbox4.y,
+        attackBoxes.attackbox4.width,
+        attackBoxes.attackbox4.height,
       )
     }
   },
