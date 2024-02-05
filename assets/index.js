@@ -115,17 +115,38 @@ let levels = {
       ];
       enemies = [
         new Enemy({
-          position: {
-            x: 450,
-            y: 450,
-          },
           collisionBlocks,
           imageSrc: "assets/images/seo-idle.png",
           frameCount: 8,
           frameBuffer: 7,
+          animations: {
+            idleLeft: {
+              frameCount: 8,
+              frameBuffer: 7,
+              loop: true,
+              imageSrc: "assets/images/seo-idle-inverted.png",
+            },
+            idleRight: {
+              frameCount: 8,
+              frameBuffer: 7,
+              loop: true,
+              imageSrc: "assets/images/seo-idle.png",
+            },
+            moveLeft: {
+              frameCount: 8,
+              frameBuffer: 7,
+              loop: true,
+              imageSrc: "assets/images/seo-idle-inverted.png",
+            },
+            moveRight: {
+              frameCount: 8,
+              frameBuffer: 7,
+              loop: true,
+              imageSrc: "assets/images/seo-idle.png",
+            },
+          },
         }),
       ];
-      enemies[0].position.x = 450
     }
   },
   2: {
@@ -221,6 +242,44 @@ let levels = {
           frameBuffer: 10,
           loop: false,
           autoplay: false,
+        }),
+      ];
+      enemies = [
+        new Enemy({
+          position: {
+            x: 450,
+            y: 450,
+          },
+          collisionBlocks,
+          imageSrc: "assets/images/seo-idle.png",
+          frameCount: 8,
+          frameBuffer: 7,
+          animations: {
+            idleLeft: {
+              frameCount: 8,
+              frameBuffer: 7,
+              loop: true,
+              imageSrc: "assets/images/seo-idle-inverted.png",
+            },
+            idleRight: {
+              frameCount: 8,
+              frameBuffer: 7,
+              loop: true,
+              imageSrc: "assets/images/seo-idle.png",
+            },
+            moveLeft: {
+              frameCount: 8,
+              frameBuffer: 7,
+              loop: true,
+              imageSrc: "assets/images/seo-idle-inverted.png",
+            },
+            moveRight: {
+              frameCount: 8,
+              frameBuffer: 7,
+              loop: true,
+              imageSrc: "assets/images/seo-idle.png",
+            },
+          },
         }),
       ];
     }
@@ -319,9 +378,49 @@ let levels = {
           autoplay: false,
         }),
       ];
+      enemies = [
+        new Enemy({
+          position: {
+            x: 450,
+            y: 450,
+          },
+          collisionBlocks,
+          imageSrc: "assets/images/seo-idle.png",
+          frameCount: 8,
+          frameBuffer: 7,
+          animations: {
+            idleLeft: {
+              frameCount: 8,
+              frameBuffer: 7,
+              loop: true,
+              imageSrc: "assets/images/seo-idle-inverted.png",
+            },
+            idleRight: {
+              frameCount: 8,
+              frameBuffer: 7,
+              loop: true,
+              imageSrc: "assets/images/seo-idle.png",
+            },
+            moveLeft: {
+              frameCount: 8,
+              frameBuffer: 7,
+              loop: true,
+              imageSrc: "assets/images/seo-idle-inverted.png",
+            },
+            moveRight: {
+              frameCount: 8,
+              frameBuffer: 7,
+              loop: true,
+              imageSrc: "assets/images/seo-idle.png",
+            },
+          },
+        }),
+      ];
     }
   },
 }
+console.log("Created Entities")
+
 
 const attacks = {
   lightAttack: {
@@ -429,11 +528,6 @@ const attacks = {
         },
       }
 
-      if (this.hitbox.position.x <= collisionBlock.position.x + collisionBlock.width &&
-        this.hitbox.position.x + this.hitbox.width >= collisionBlock.position.x &&
-      this.hitbox.position.y + this.hitbox.height >= collisionBlock.position.y &&
-      this.hitbox.position.y <= collisionBlock.position.y + collisionBlock.height)
-
       //Hitbox Visualized Heavy Left
       ctx.fillStyle = "rgba(255, 255, 0, 0.5)"
       ctx.fillRect(
@@ -540,6 +634,12 @@ function animate() {
     ctx.fillStyle = "rgba(0, 225, 0, 0.5)"
     ctx.fillRect(door.position.x, door.position.y, door.width, door.height)
     */
+  })
+
+  enemies.forEach((enemy) => {
+    enemy.draw()
+    enemy.update()
+    console.log("drawing enemies")
   })
 
   seo.inputHandler(keys);

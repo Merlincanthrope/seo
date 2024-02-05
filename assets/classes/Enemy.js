@@ -1,6 +1,10 @@
 class Enemy extends Sprite {
-    constructor({ position, collisionBlocks = [], imageSrc, frameCount, frameBuffer, animations, loop }) {
-        this.position = position
+    constructor({ collisionBlocks = [], imageSrc, frameCount, frameBuffer, animations, loop }) {
+      super({ imageSrc, frameCount, animations, loop })
+        this.position = {
+          x: 450,
+          y: 450,
+        }
         this.width = 100
         this.height = 100
 
