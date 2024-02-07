@@ -87,49 +87,71 @@ let levels = {
         }
       });
 
-      // enemies = [ 
-      //   new Enemy({
-      //     position: {
-      //       x: 450,
-      //       y: 475,
-      //     },
-      //     offset: {
-      //       x: 22,
-      //       y: 22,
-      //     },
-      //     frameCount: 8,
-      //     frameBuffer: 7,
-      //     animations: {
-      //       idleLeft: {
-      //         frameCount: 8,
-      //         frameBuffer: 7,
-      //         loop: true,
-      //         imageSrc: "assets/images/seo-idle-inverted.png",
-      //       },
-      //       idleRight: {
-      //         frameCount: 8,
-      //         frameBuffer: 7,
-      //         loop: true,
-      //         imageSrc: "assets/images/seo-idle.png",
-      //       },
-      //       moveLeft: {
-      //         frameCount: 8,
-      //         frameBuffer: 7,
-      //         loop: true,
-      //         imageSrc: "assets/images/seo-idle-inverted.png",
-      //       },
-      //       moveRight: {
-      //         frameCount: 8,
-      //         frameBuffer: 7,
-      //         loop: true,
-      //         imageSrc: "assets/images/seo-idle.png",
-      //       },
-      //     },
-      //     loop: true,
-      //     color: 'red'
-      //   }),
-      // ];
-      
+      enemies = [
+        new Enemy({
+          position: {
+            x: 450,
+            y: 475,
+          },
+          velocity: {
+            x: 0,
+            y: 0,
+          },
+          imageSrc: "assets/images/seo-idle.png",
+          size: {
+            width: 50,
+            height: 65,
+          },
+          frameCount: 8,
+          sprites: {
+            idleLeft: {
+              imageSrc: "assets/images/seo-idle-inverted.png",
+              frameCount: 8,
+            },
+            idleRight: {
+              imageSrc: "assets/images/seo-idle.png",
+              frameCount: 8,
+            },
+            moveLeft: {
+              imageSrc: "assets/images/seo-idle-inverted.png",
+              frameCount: 8,
+            },
+            moveRight: {
+              imageSrc: "assets/images/seo-idle.png",
+              frameCount: 8,
+            },
+            jumpLeft: {
+              imageSrc: "assets/images/seo-idle-inverted.png",
+              frameCount: 8,
+            },
+            jumpRight: {
+              imageSrc: "assets/images/seo-idle.png",
+              frameCount: 8,
+            },
+            fallLeft: {
+              imageSrc: "assets/images/seo-idle-inverted.png",
+              frameCount: 8,
+            },
+            fallRight: {
+              imageSrc: "assets/images/seo-idle.png",
+              frameCount: 8,
+            },
+            attackLeft: {
+              imageSrc: "assets/images/seo-idle-inverted.png",
+              frameCount: 8,
+            },
+            attackRight: {
+              imageSrc: "assets/images/seo-idle.png",
+              frameCount: 8,
+            },
+            death: {
+              imageSrc: "assets/images/seo-idle-inverted.png",
+              frameCount: 8,
+            }
+          },
+        })
+      ];
+
       parsedCollisions = collisionsLevel1.parse2D();
       collisionBlocks = parsedCollisions.createObjectFrom2D();
       seo.collisionBlocks = collisionBlocks
@@ -559,6 +581,10 @@ function animate() {
     collisionBlocks.draw()
   })
 
+  enemies.forEach((enemy) => {
+    enemy.draw()
+  })
+
   doors.forEach((door) => {
     door.draw()
 
@@ -568,12 +594,6 @@ function animate() {
     ctx.fillRect(door.position.x, door.position.y, door.width, door.height)
     */
   })
-
-  // enemies.forEach((enemy) => {
-  //   enemy.draw()
-  //   enemy.update()
-  //   console.log("drawing enemies")
-  // })
 
   seo.inputHandler(keys);
 

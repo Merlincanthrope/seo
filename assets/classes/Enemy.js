@@ -1,245 +1,154 @@
 class Enemy extends Sprite {
-  constructor({ position, offset = { x: 22, y: 22}, frameCount, frameBuffer, animations, loop, color }) {
-    super({ position, imageSrc, frameCount, frameBuffer, animations, loop})
+  constructor({
+    position,
+    velocity,
+    color = "red",
+    imageSrc,
+    size,
+    frameCount,
+    sprites,
+    health = 100,
+  }) {
+    super({ position, imageSrc, frameCount })
+
     this.position = position
-
-    this.frameCount = frameCount
-    this.width = this.image.width / this.frameCount
-    this.height = this.image.height
-
-    this.velocity = {
-      x: 0,
-      y: 0,
-    }
-
-    this.color = color
-    this.offset = offset
-    this.gravity = 1;
-  }
-
-  drawHitbox() {
+    this.size = size
+    this.velocity = velocity
+    this.lastInput
     this.hitbox = {
       position: {
-        x: this.position.x + this.offset.x,
-        y: this.position.y + this.offset.y,
+        x: this.position.x,
+        y: this.position.y
       },
-      width: 50,
-      height: 65,
+      width: this.size.width,
+      height: this.size.height,
     }
-  }
+    this.color = color
+    this.isAttacking = false
+    this.health = health
+    
+    this.currentFrame = 0
+    this.elapsedFrames = 0
+    this.frameBuffer = 5
+    this.sprites = sprites
+    this.isDead = false
 
-  draw() {
-    ctx.fillStyle = this.color
-    ctx.fillRect(
-      this.position.x,
-      this.position.y,
-      this.width,
-      this.height
-    )
-  }
-
-  checkHorizontalCollision() {
-    for (let i = 0; i < this.collisionBlocks.length; i++) {
-      const collisionBlock = this.collisionBlocks[i]
-      // if colliding
-      if (this.hitbox.position.x <=
-         collisionBlock.position.x + collisionBlock.width &&
-        this.hitbox.position.x + this.hitbox.width >=
-         collisionBlock.position.x &&
-        this.hitbox.position.y + this.hitbox.height >=
-         collisionBlock.position.y &&
-        this.hitbox.position.y <=
-         collisionBlock.position.y + collisionBlock.height) {
-        
-        if (this.velocity.x < 0) {
-          this.velocity.x = 0
-          this.position.x = collisionBlock.position.x + collisionBlock.width - this.offset.x + 0.01
-          break
-        }
-        if (this.velocity.x > 0) {
-          this.velocity.x = 0
-          this.position.x = collisionBlock.position.x - this.offset - 0.01
-          break
-        }
-      }
+    for (let key in this.sprites) {
+      this.sprites[key].image = new Image()
+      this.sprites[key].image.src = this.sprites[key].imageSrc
     }
-  }
-
-  checkVerticalCollisions() {
-    for (let i = 0; i < this.collisionBlocks.length; i++) {
-      const collisionBlock = this.collisionBlocks[i]
-      // if colliding
-      if (this.hitbox.position.x <=
-         collisionBlock.position.x + collisionBlock.width &&
-        this.hitbox.position.x + this.hitbox.width >=
-         collisionBlock.position.x &&
-        this.hitbox.position.y + this.hitbox.height >=
-         collisionBlock.position.y &&
-        this.hitbox.position.y <=
-         collisionBlock.position.y + collisionBlock.height) {
-
-          if (this.velocity.y < 0) {
-            this.velocity.y = 0
-            this.position.y = collisionBlock.position.y + collisionBlock.height - this.offset + 0.01
-            break
-          }
-          if (this.velocity.y > 0) {
-            this.velocity.y = 0
-            this.position.y = collisionBlock.position.y - this.offset - 0.01
-            break
-          }
-      }
-    }
-  }
-
-  switchSprite(name) {
-    if (this.image === this.animations[name].image) return
-    this.currentFrame = 0;
-    this.image = this.animations[name].image;
-    this.frameCount = this.animations[name].frameCount;
-    this.frameBuffer = this.animations[name].frameBuffer;
-    this.loop = this.animations[name].loop;
-    this.currentAnimation = this.animations[name];
   }
 
   update() {
-    this.position.x += this.velocity.x
-    this.drawHitbox()
-    this.checkHorizontalCollision()
-    
-    this.velocity.y += this.gravity
-    this.position.y += this.velocity.y
+    this.draw()
+    if (!this.isDead) updateFrames()
+  }
 
-    this.drawHitbox()
-    this.checkVerticalCollisions()
+  switchSprites(sprite) {
+    if (this.image === this.sprites.death.image) {
+      if (this.currentFrame === this.sprites.death.frameCount - 1) {
+        this.isDead = true
+        return
+      }
+    }
+
+    if (
+      (this.image === this.sprites.attackLeft.image || this.image === this.sprites.attackRight.image) &&
+      this.currentFrame < this.sprites.attackLeft.frameCount - 1
+    ) 
+      return
+
+    if (
+      this.image === this.sprites.getHit.image &&
+      this.currentFrame < this.sprites.getHit.frameCount - 1
+    )
+      return
+
+    switch(sprite) {
+      case "idleLeft":
+        if (this.image !== this.sprites.idleLeft.image) {
+          this.image = this.sprites.idleLeft.image
+          this.frameCount = this.sprites.idleLeft.frameCount
+          this.currentFrame = 0
+        }
+        break
+      case "idleRight":
+        if (this.image !== this.sprites.idleRight.image) {
+          this.image = this.sprites.idleRight.image
+          this.frameCount = this.sprites.idleRight.frameCount
+          this.currentFrame = 0
+        }
+        break
+      case "moveLeft":
+        if (this.image !== this.sprites.moveLeft.image) {
+          this.image = this.sprites.moveLeft.image
+          this.frameCount = this.sprites.moveLeft.frameCount
+          this.currentFrame = 0
+        }
+        break
+      case "moveRight":
+        if (this.image !== this.sprites.moveRight.image) {
+          this.image = this.sprites.moveRight.image
+          this.frameCount = this.sprites.moveRight.frameCount
+          this.currentFrame = 0
+        }
+        break
+      case "jumpLeft":
+        if (this.image !== this.sprites.jumpLeft.image) {
+          this.image = this.sprites.jumpLeft.image
+          this.frameCount = this.sprites.jumpLeft.frameCount
+          this.currentFrame = 0
+        }
+        break
+      case "jumpRight":
+        if (this.image !== this.sprites.jumpRight.image) {
+          this.image = this.sprites.jumpRight.image
+          this.frameCount = this.sprites.jumpRight.frameCount
+          this.currentFrame = 0
+        }
+        break
+      case "fallLeft":
+        if (this.image !== this.sprites.fallLeft.image) {
+          this.image = this.sprites.fallLeft.image
+          this.frameCount = this.sprites.fallLeft.frameCount
+          this.currentFrame = 0
+        }
+        break
+      case "fallRight":
+        if (this.image !== this.sprites.fallRight.image) {
+          this.image = this.sprites.fallRight.image
+          this.frameCount = this.sprites.fallRight.frameCount
+          this.currentFrame = 0
+        }
+        break
+      case "attackLeft":
+        if (this.image !== this.sprites.attackLeft.image) {
+          this.image = this.sprites.attackLeft.image
+          this.frameCount = this.sprites.attackLeft.frameCount
+          this.currentFrame = 0
+        }
+        break
+      case "attackRight":
+        if (this.image !== this.sprites.attackRight.image) {
+          this.image = this.sprites.attackRight.image
+          this.frameCount = this.sprites.attackRight.frameCount
+          this.currentFrame = 0
+        }
+        break
+      case "getHit":
+        if (this.image !== this.sprites.getHit.image) {
+          this.image = this.sprites.getHit.image
+          this.frameCount = this.sprites.getHit.frameCount
+          this.currentFrame = 0
+        }
+        break
+      case "death":
+        if (this.image !== this.sprites.death.image) {
+          this.image = this.sprites.death.image
+          this.frameCount = this.sprites.death.frameCount
+          this.currentFrame = 0
+        }
+        break
+    }
   }
 }
-
-    //   super({ imageSrc, frameCount, animations, loop })
-    //     this.position = {
-    //       x: 450,
-    //       y: 475,
-    //     }
-    //     this.width = 100
-    //     this.height = 100
-
-    //     this.sides = {
-    //         left: this.position.x,
-    //         right: this.position.x + this.width,
-    //         top: this.position.y,
-    //         bottom: this.position.y + this.height
-    //     }
-    //     this.gravity = 1
-
-    //     this.collisionBlocks = collisionBlocks
-
-    //     this.velocity = {
-    //       x: 0,
-    //       y: 0,
-    //   }
-    //   this.currentAnimationLogged = false
-    // }
-
-    // updateHitbox() {
-    //     this.hitbox = {
-    //         position: {
-    //             x: this.position.x + 22,
-    //             y: this.position.y + 22,
-    //         },
-    //         width: 50,
-    //         height: 65,
-    //     }
-    // }
-
-    // checkHorizontalCollision() {
-    //     // Check for horizontal collisions
-    //     for (let i = 0; i < this.collisionBlocks.length; i++) {
-    //       const collisionBlock = this.collisionBlocks[i]
-    //       // if colliding
-    //       if (this.hitbox.position.x <= collisionBlock.position.x + collisionBlock.width &&
-    //           this.hitbox.position.x + this.hitbox.width >= collisionBlock.position.x &&
-    //         this.hitbox.position.y + this.hitbox.height >= collisionBlock.position.y &&
-    //         this.hitbox.position.y <= collisionBlock.position.y + collisionBlock.height) {
-    //           // collision on horizontal axis on left side of Seo
-    //           if (this.velocity.x < -1) {
-    //             const offset =
-    //              this.hitbox.position.x - this.position.x
-    //             this.position.x = collisionBlock.position.x + collisionBlock.width - offset + 0.01
-    //             break
-    //           }
-    //           // collision on horizontal axis on right side of Seo
-    //           if (this.velocity.x > 1) {
-    //             const offset =
-    //              this.hitbox.position.x - this.position.x + this.hitbox.width
-    //             this.position.x = collisionBlock.position.x - offset - 0.01
-    //             break
-    //           }
-    //       }
-    //     }
-    //   }
-  
-    //   insertGravity() {
-    //      // insert gravity to collisions
-    //      this.velocity.y += this.gravity;
-    //      this.position.y += this.velocity.y;
-    //   }
-  
-    //   checkVerticalCollision() {
-    //     // Check for vertical collisions
-    //     for (let i = 0; i < this.collisionBlocks.length; i++) {
-    //       const collisionBlock = this.collisionBlocks[i]
-    //       // if colliding
-    //       if (this.hitbox.position.x <=
-    //          collisionBlock.position.x + collisionBlock.width &&
-    //         this.hitbox.position.x + this.hitbox.width >=
-    //          collisionBlock.position.x &&
-    //         this.hitbox.position.y + this.hitbox.height >=
-    //          collisionBlock.position.y &&
-    //         this.hitbox.position.y <=
-    //          collisionBlock.position.y + collisionBlock.height) {
-    //           // collision on vertical axis on top side of Seo
-    //           if (this.velocity.y < 0) {
-    //             this.velocity.y = 0;
-    //             const offset = this.hitbox.position.y - this.position.y;
-    //             this.position.y = collisionBlock.position.y + collisionBlock.height - offset + 0.01;
-    //             break;
-    //           }
-    //           // collision on vertical axis on bottom side of Seo
-    //           if (this.velocity.y > 0) {
-    //             this.velocity.y = 0;
-    //             const offset =
-    //              this.hitbox.position.y - this.position.y + this.hitbox.height;
-    //             this.position.y = collisionBlock.position.y - offset - 0.01;
-    //             break;
-    //           }
-    //       }
-    //     }
-    //   }
-
-    //   switchSprite(name) {
-    //     if (this.image === this.animations[name].image) return
-    //     this.currentFrame = 0;
-    //     this.image = this.animations[name].image;
-    //     this.frameCount = this.animations[name].frameCount;
-    //     this.frameBuffer = this.animations[name].frameBuffer;
-    //     this.loop = this.animations[name].loop;
-    //     this.currentAnimation = this.animations[name];
-    //   }
-
-    //   update() {
-    //     this.position.x += this.velocity.x;
-    //     this.updateHitbox();
-    //     this.checkHorizontalCollision();
-    //     this.insertGravity();
-    //     this.updateHitbox();
-  
-    //     // Enemy Hitbox
-    //     ctx.fillStyle = "rgba(200, 0, 200, 0.5)"
-    //     ctx.fillRect(
-    //       this.hitbox.position.x,
-    //       this.hitbox.position.y,
-    //       this.hitbox.width,
-    //       this.hitbox.height,
-    //     )
-    //     this.checkVerticalCollision();
-    //   }
