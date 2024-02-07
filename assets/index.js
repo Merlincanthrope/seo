@@ -13,6 +13,7 @@ console.log ("Running Game...")
 let parsedCollisions
 let collisionBlocks
 let background
+let enemies
 let doors
 let seo
 // let enemies
@@ -91,7 +92,7 @@ let levels = {
         new Enemy({
           position: {
             x: 450,
-            y: 475,
+            y: 425,
           },
           velocity: {
             x: 0,
@@ -155,6 +156,9 @@ let levels = {
       parsedCollisions = collisionsLevel1.parse2D();
       collisionBlocks = parsedCollisions.createObjectFrom2D();
       seo.collisionBlocks = collisionBlocks
+      enemies.forEach((enemy) => {
+        enemy.collisionBlocks = collisionBlocks
+      })
 
       background = new Sprite({
         position: {
@@ -582,7 +586,7 @@ function animate() {
   })
 
   enemies.forEach((enemy) => {
-    enemy.draw()
+    enemy.update()
   })
 
   doors.forEach((door) => {

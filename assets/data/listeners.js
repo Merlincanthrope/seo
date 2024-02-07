@@ -50,6 +50,13 @@ window.addEventListener("keydown", (event) => {
         } else {
           keys.p.pressed = false
         }
+      break;
+      case "ArrowUp":
+          keys.arrowUp.pressed = true;
+          enemies.forEach((enemy) => {
+            if (enemy.velocity.y === 0) enemy.velocity.y = -17
+          })
+      break;
     }
   })
   
@@ -77,6 +84,10 @@ window.addEventListener("keydown", (event) => {
       break;
       case "k":
         keys.k.pressed = false;
+
+      break;
+      case "ArrowUp":
+        keys.arrowUp.pressed = false;
 
       break;
     }

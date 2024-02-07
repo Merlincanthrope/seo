@@ -8,21 +8,16 @@ class Enemy extends Sprite {
     frameCount,
     sprites,
     health = 100,
+    collisionBlocks
   }) {
     super({ position, imageSrc, frameCount })
+
+    this.collisionBlocks = collisionBlocks
 
     this.position = position
     this.size = size
     this.velocity = velocity
-    this.lastInput
-    this.hitbox = {
-      position: {
-        x: this.position.x,
-        y: this.position.y
-      },
-      width: this.size.width,
-      height: this.size.height,
-    }
+    this.lastInput = "right"
     this.color = color
     this.isAttacking = false
     this.health = health
@@ -33,21 +28,127 @@ class Enemy extends Sprite {
     this.sprites = sprites
     this.isDead = false
 
+    this.gravity = 1
+
     for (let key in this.sprites) {
       this.sprites[key].image = new Image()
       this.sprites[key].image.src = this.sprites[key].imageSrc
     }
   }
 
+  testInputs() {
+    this.velocity.x = 0
+    if (keys.arrowUp.pressed) {
+      if (this.lastInput = "right") {
+      }
+    }
+  }
+
+  updateHitbox() {
+    this.hitbox = {
+      position: {
+        x: this.position.x + 22,
+        y: this.position.y + 22
+      },
+      width: this.size.width,
+      height: this.size.height,
+    }
+  }
+
   update() {
     this.draw()
-    if (!this.isDead) updateFrames()
+    if (!this.isDead) this.updateFrames()
+
+    this.updateHitbox()
+    this.checkHorizontalCollision()
+    this.insertGravity()    
+    this.updateHitbox()
+
+
+    // Enemy Hitbox
+    ctx.fillStyle = "rgba(255, 0, 0, 0.5)"
+    ctx.fillRect(
+      this.hitbox.position.x,
+      this.hitbox.position.y,
+      this.hitbox.width,
+      this.hitbox.height
+    )
+
+    this.checkVerticalCollision()
+  }
+
+  insertGravity() {
+    this.velocity.y += this.gravity
+    this.position.y += this.velocity.y
+  }
+  
+  checkHorizontalCollision() {
+    for (let i = 0; i < this.collisionBlocks.length; i++) {
+      const collisionBlock = this.collisionBlocks[i]
+
+      if (this.hitbox.position.x <=
+        collisionBlock.position.x + collisionBlock.width &&
+       this.hitbox.position.x + this.hitbox.width >=
+        collisionBlock.position.x &&
+       this.hitbox.position.y + this.hitbox.height >=
+        collisionBlock.position.y &&
+       this.hitbox.position.y <=
+       collisionBlock.position.y + collisionBlock.height
+      ) {
+        if (this.velocity.x < -1) {
+          const offset = this.hitbox.position.x - this.position.x
+          this.position.x = collisionBlock.position.x + collisionBlock.width - offset + 0.01          
+
+          break
+        }
+
+        if (this.velocity.x > 1) {
+          const offset = this.hitbox.position.x - this.position.x + this.hitbox.width
+          this.position.x = collisionBlock.position.x - offset - 0.01
+
+          break
+        }
+      }
+    }
+  }
+
+  checkVerticalCollision() {
+    for (let i = 0; i < this.collisionBlocks.length; i++) {
+      const collisionBlock = this.collisionBlocks[i]
+
+      if (this.hitbox.position.x <=
+        collisionBlock.position.x + collisionBlock.width &&
+       this.hitbox.position.x + this.hitbox.width >=
+        collisionBlock.position.x &&
+       this.hitbox.position.y + this.hitbox.height >=
+        collisionBlock.position.y &&
+       this.hitbox.position.y <=
+       collisionBlock.position.y + collisionBlock.height
+      ) {
+        if (this.velocity.y < 0) {
+          this.velocity.y = 0
+          const offset = this.hitbox.position.y - this.position.y
+          this.position.y = collisionBlock.position.y + collisionBlock.height - offset + 0.01          
+
+          break
+        }
+
+        if (this.velocity.y > 0) {
+          this.velocity.y = 0
+          const offset = this.hitbox.position.y - this.position.y + this.hitbox.height
+          this.position.y = collisionBlock.position.y - offset - 0.01
+
+          break
+        }
+      }
+    }
   }
 
   switchSprites(sprite) {
     if (this.image === this.sprites.death.image) {
       if (this.currentFrame === this.sprites.death.frameCount - 1) {
         this.isDead = true
+        console.log("enemy down. isDead = " + this.isDead)
         return
       }
     }

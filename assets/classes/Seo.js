@@ -74,10 +74,15 @@ class Seo extends Sprite {
       for (let i = 0; i < this.collisionBlocks.length; i++) {
         const collisionBlock = this.collisionBlocks[i]
         // if colliding
-        if (this.hitbox.position.x <= collisionBlock.position.x + collisionBlock.width &&
-            this.hitbox.position.x + this.hitbox.width >= collisionBlock.position.x &&
-          this.hitbox.position.y + this.hitbox.height >= collisionBlock.position.y &&
-          this.hitbox.position.y <= collisionBlock.position.y + collisionBlock.height) {
+        if (this.hitbox.position.x <=
+          collisionBlock.position.x + collisionBlock.width &&
+          this.hitbox.position.x + this.hitbox.width >=
+          collisionBlock.position.x &&
+          this.hitbox.position.y + this.hitbox.height >=
+          collisionBlock.position.y &&
+          this.hitbox.position.y <=
+          collisionBlock.position.y + collisionBlock.height
+        ) {
             // collision on horizontal axis on left side of Seo
             if (this.velocity.x < -1) {
               const offset =
