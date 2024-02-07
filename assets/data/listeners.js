@@ -51,13 +51,26 @@ window.addEventListener("keydown", (event) => {
           keys.p.pressed = false
         }
       break;
-      case "ArrowUp":
-          keys.arrowUp.pressed = true;
+      case "y":
+          keys.y.pressed = true;
           enemies.forEach((enemy) => {
-            if (enemy.velocity.y === 0) enemy.velocity.y = -17
+            if (enemy.velocity.y === 0) {
+              enemy.velocity.y = -17
+              if (enemy.lastInput === "right") {
+                enemy.switchSprites("jumpRight")
+              } else if (enemy.lastInput === "left") {
+                enemy.switchSprites("jumpLeft")
+              }
+            }
           })
       break;
-    }
+      case "t":
+        keys.t.pressed = true;
+
+      break;
+      case "u":
+        keys.u.pressed = true;
+    };
   })
   
   window.addEventListener("keyup", (event) => {
@@ -86,8 +99,16 @@ window.addEventListener("keydown", (event) => {
         keys.k.pressed = false;
 
       break;
-      case "ArrowUp":
-        keys.arrowUp.pressed = false;
+      case "y":
+        keys.y.pressed = false;
+
+      break;
+      case "t":
+        keys.t.pressed = false;
+
+      break;
+      case "u":
+        keys.u.pressed = false;
 
       break;
     }

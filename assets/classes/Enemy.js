@@ -36,10 +36,21 @@ class Enemy extends Sprite {
     }
   }
 
-  testInputs() {
+  testInputs(keys) {
     this.velocity.x = 0
-    if (keys.arrowUp.pressed) {
-      if (this.lastInput = "right") {
+    if (keys.t.pressed) {
+      this.switchSprites("moveLeft")
+      this.velocity.x = -4
+      this.lastInput = "left"
+    } else if (keys.u.pressed) {
+      this.switchSprites("moveRight")
+      this.velocity.x = 4
+      this.lastInput = "right"
+    } else {
+      if (this.lastInput === "left") {
+        this.switchSprites("idleLeft")
+      } else if (this.lastInput === "right") {
+        this.switchSprites("idleRight")
       }
     }
   }

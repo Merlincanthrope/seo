@@ -169,19 +169,21 @@ let levels = {
         frameCount: 1,
         frameBuffer: 5,
       });
+
       doors = [
         new Sprite({
           position: {
             x: 525,
             y: 450,
           },
-          imageSrc: "assets/images/seo-idle-inverted.png",
+          imageSrc: "assets/images/test-door-seo.png",
           frameCount: 3,
           frameBuffer: 10,
           loop: false,
           autoplay: false,
         }),
       ];
+
     }
   },
   2: {
@@ -362,6 +364,7 @@ let levels = {
         frameCount: 1,
         frameBuffer: 5,
       });
+
       doors = [
         new Sprite({
           position: {
@@ -541,6 +544,15 @@ var keys = {
     pressed: false
   },
   p: {
+    pressed: false
+  },
+  y: {
+    pressed: false
+  },
+  t: {
+    pressed: false
+  },
+  u: {
     pressed: false
   }
 };
