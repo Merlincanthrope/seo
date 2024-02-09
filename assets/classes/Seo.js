@@ -1,14 +1,12 @@
-class Seo {
-    constructor({ collisionBlocks = [], imageSrc }) {
+class Seo extends Sprite {
+    constructor({ collisionBlocks = [], imageSrc, frameCount, animations, loop }) {
+      super({ imageSrc, frameCount, animations, loop })
       this.position = {
-        x: 200,
-        y: 300,
+        x: 150,
+        y: 475,
       }
-      this.width = 50;
-      this.height = 50;
-
-      this.image = new Image()
-      this.image.src = imageSrc
+      this.width = 100;
+      this.height = 100;
       
       this.sides = {
         bottom: this.position.y + this.height,
@@ -24,10 +22,51 @@ class Seo {
         x: 0,
         y: 0,
       }
+      this.currentAnimationLogged = false
     }
 
-    draw() {
-      ctx.drawImage(this.image, this.position.x, this.position.y)
+    inputHandler(keys) {
+      if (this.preventInput) return
+      this.velocity.x = 0;
+      if (keys.d.pressed) {
+        this.switchSprite('moveRight')
+        this.velocity.x = 4;
+        this.lastDirection = 'right'
+      } else if (keys.a.pressed) {
+        this.switchSprite('moveLeft')
+        this.velocity.x = -4;
+        this.lastDirection = 'left'
+      } else {
+        if (this.lastDirection === 'left') {
+          this.switchSprite('idleLeft')
+        } else if (this.lastDirection === 'right') {
+          this.switchSprite('idleRight')
+        }
+      }
+      if (keys.j.pressed) {
+        if (this.lastDirection === "right") {
+          attacks.lightAttack.right()
+        } else if (this.lastDirection === "left") {
+          attacks.lightAttack.left()
+        }
+      } else if (keys.k.pressed) {
+        if (this.lastDirection === "right") {
+          attacks.heavyAttack.right()
+        } else if (this.lastDirection === "left") {
+          attacks.heavyAttack.left()
+        }
+      }
+    }
+
+    updateHitbox() {
+      this.hitbox = {
+        position: {
+          x: this.position.x + 22,
+          y: this.position.y + 22,
+        },
+        width: 50,
+        height: 65,
+      }
     }
 
     checkHorizontalCollision() {
@@ -35,18 +74,27 @@ class Seo {
       for (let i = 0; i < this.collisionBlocks.length; i++) {
         const collisionBlock = this.collisionBlocks[i]
         // if colliding
-        if (this.position.x <= collisionBlock.position.x + collisionBlock.width &&
-          this.position.x + this.width >= collisionBlock.position.x &&
-          this.position.y + this.height >= collisionBlock.position.y &&
-          this.position.y <= collisionBlock.position.y + collisionBlock.height) {
+        if (this.hitbox.position.x <=
+          collisionBlock.position.x + collisionBlock.width &&
+          this.hitbox.position.x + this.hitbox.width >=
+          collisionBlock.position.x &&
+          this.hitbox.position.y + this.hitbox.height >=
+          collisionBlock.position.y &&
+          this.hitbox.position.y <=
+          collisionBlock.position.y + collisionBlock.height
+        ) {
             // collision on horizontal axis on left side of Seo
             if (this.velocity.x < -1) {
-              this.position.x = collisionBlock.position.x + collisionBlock.width + 0.01
+              const offset =
+               this.hitbox.position.x - this.position.x
+              this.position.x = collisionBlock.position.x + collisionBlock.width - offset + 0.01
               break
             }
             // collision on horizontal axis on right side of Seo
             if (this.velocity.x > 1) {
-              this.position.x = collisionBlock.position.x - this.width - 0.01
+              const offset =
+               this.hitbox.position.x - this.position.x + this.hitbox.width
+              this.position.x = collisionBlock.position.x - offset - 0.01
               break
             }
         }
@@ -64,30 +112,60 @@ class Seo {
       for (let i = 0; i < this.collisionBlocks.length; i++) {
         const collisionBlock = this.collisionBlocks[i]
         // if colliding
-        if (this.position.x <= collisionBlock.position.x + collisionBlock.width &&
-          this.position.x + this.width >= collisionBlock.position.x &&
-          this.position.y + this.height >= collisionBlock.position.y &&
-          this.position.y <= collisionBlock.position.y + collisionBlock.height) {
+        if (this.hitbox.position.x <=
+           collisionBlock.position.x + collisionBlock.width &&
+          this.hitbox.position.x + this.hitbox.width >=
+           collisionBlock.position.x &&
+          this.hitbox.position.y + this.hitbox.height >=
+           collisionBlock.position.y &&
+          this.hitbox.position.y <=
+           collisionBlock.position.y + collisionBlock.height) {
             // collision on vertical axis on top side of Seo
             if (this.velocity.y < 0) {
-              this.velocity.y = 0
-              this.position.y = collisionBlock.position.y + collisionBlock.height + 0.01
-              break
+              this.velocity.y = 0;
+              const offset = this.hitbox.position.y - this.position.y;
+              this.position.y = collisionBlock.position.y + collisionBlock.height - offset + 0.01;
+              break;
             }
             // collision on vertical axis on bottom side of Seo
             if (this.velocity.y > 0) {
-              this.velocity.y = 0
-              this.position.y = collisionBlock.position.y - this.height - 0.01
-              break
+              this.velocity.y = 0;
+              const offset =
+               this.hitbox.position.y - this.position.y + this.hitbox.height;
+              this.position.y = collisionBlock.position.y - offset - 0.01;
+              break;
             }
         }
       }
     }
+
+    switchSprite(name) {
+      if (this.image === this.animations[name].image) return
+      this.currentFrame = 0;
+      this.image = this.animations[name].image;
+      this.frameCount = this.animations[name].frameCount;
+      this.frameBuffer = this.animations[name].frameBuffer;
+      this.loop = this.animations[name].loop;
+      this.currentAnimation = this.animations[name];
+    }
       
     update() {
       this.position.x += this.velocity.x;
+      this.updateHitbox();
       this.checkHorizontalCollision();
-      this.insertGravity()
+      this.insertGravity();
+      this.updateHitbox();
+
+      // Seo Hitbox / Player Hitbox
+      /*
+      ctx.fillStyle = "rgba(200, 0, 200, 0.5)"
+      ctx.fillRect(
+        this.hitbox.position.x,
+        this.hitbox.position.y,
+        this.hitbox.width,
+        this.hitbox.height,
+      )
+      */
       this.checkVerticalCollision();
     }
   }

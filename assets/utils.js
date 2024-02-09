@@ -3,7 +3,6 @@ Array.prototype.parse2D = function() {
     for (let i = 0; i < this.length; i += 16) {
         rows.push(this.slice(i, i + 16))
     }
-    console.log(rows)
     return rows;
 }
 
