@@ -158,14 +158,14 @@
     //           this.hitbox.position.x + this.hitbox.width >= collisionBlock.position.x &&
     //         this.hitbox.position.y + this.hitbox.height >= collisionBlock.position.y &&
     //         this.hitbox.position.y <= collisionBlock.position.y + collisionBlock.height) {
-    //           // collision on horizontal axis on left side of Seo
+    //           // collision on horizontal axis on left side of player
     //           if (this.velocity.x < -1) {
     //             const offset =
     //              this.hitbox.position.x - this.position.x
     //             this.position.x = collisionBlock.position.x + collisionBlock.width - offset + 0.01
     //             break
     //           }
-    //           // collision on horizontal axis on right side of Seo
+    //           // collision on horizontal axis on right side of player
     //           if (this.velocity.x > 1) {
     //             const offset =
     //              this.hitbox.position.x - this.position.x + this.hitbox.width
@@ -195,14 +195,14 @@
     //          collisionBlock.position.y &&
     //         this.hitbox.position.y <=
     //          collisionBlock.position.y + collisionBlock.height) {
-    //           // collision on vertical axis on top side of Seo
+    //           // collision on vertical axis on top side of player
     //           if (this.velocity.y < 0) {
     //             this.velocity.y = 0;
     //             const offset = this.hitbox.position.y - this.position.y;
     //             this.position.y = collisionBlock.position.y + collisionBlock.height - offset + 0.01;
     //             break;
     //           }
-    //           // collision on vertical axis on bottom side of Seo
+    //           // collision on vertical axis on bottom side of player
     //           if (this.velocity.y > 0) {
     //             this.velocity.y = 0;
     //             const offset =
