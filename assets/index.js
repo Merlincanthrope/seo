@@ -24,6 +24,7 @@ const keys = {
   w: {pressed: false},
   k: {pressed: false},
   u: {pressed: false},
+  c: {pressed: false},
 };
 
 let player, testEnemy;
@@ -76,7 +77,7 @@ function animate() {
 
   // testEnemy.decideActions();
 
-  testEnemy.checkIfPlayerIsAttackable()
+  testEnemy.attackPlayer()
 
   player.checkCollisionWithHurtbox();
 

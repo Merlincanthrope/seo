@@ -64,5 +64,20 @@ document.addEventListener("keypress", (event) => {
                 player.hit = false
             }, 200)
             break
+        case "c":
+            keys.c.pressed = true
+            if (keys.d.pressed && !keys.a.pressed) {
+                player.dodge("right")
+            } else if (keys.a.pressed && !keys.d.pressed) {
+                player.dodge("left")
+            } else {
+                if (player.lastDirection == "right") {
+                    player.dodge("left")
+                } else if (player.lastDirection == "left") {
+                    player.dodge("right")
+                }
+            }
+            console.log("pressed c")
+            break
     }
 })

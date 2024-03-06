@@ -75,23 +75,31 @@ class Player {
         this.position.y + this.height > ent.position.y &&
         this.position.y < ent.position.y + ent.height
       ) {
-        if (this.position.x + this.width < ent.position.x + ent.width / 2) {
+        let kx = 14
+        let ky = 7
+
+        // Collision where player is on the left
+        if (
+            this.position.x + this.width < ent.position.x + (ent.width / 2) &&
+            this.position.x < ent.position.x
+        ) {
           if (this.stunFrames > 0) return;
-          this.getHit();
-          this.velocity.x += -7;
-          this.velocity.y += -7;
+          this.getHit("left", kx, "up", ky, 150);
         }
-        if (this.position.x > ent.position.x + ent.width / 2) {
+
+        // Collision where player is on the right
+        if (
+            this.position.x > ent.position.x + (ent.width / 2) &&
+            this.position.x + this.width > ent.position.x + ent.width
+        ) {
           if (this.stunFrames > 0) return;
-          this.getHit();
-          this.velocity.x += 7;
-          this.velocity.y += 7;
+          this.getHit("right", kx, "up", ky, 150);
         }
       }
     }
   
     checkCollisionWithHurtbox() {
-  
+      if (this.stunFrames > 0) return
       if (keys.u.pressed && testEnemy.lastDirection === "left") {
         if (
           this.position.x <
@@ -104,11 +112,8 @@ class Player {
            testEnemy.hurtbox.groundLeft.y
         ) {
           console.log("Colliding with attack!");
-          this.getHit();
           if (!this.hit) {
-            this.velocity.x += -1
-            this.velocity.y += -15
-            this.hit = true
+            this.getHit(testEnemy.lastDirection, 1, "up", 15, 200);
             // console.log(this.hit);
           }
         }
@@ -124,32 +129,68 @@ class Player {
            testEnemy.hurtbox.groundRight.y
         ) {
           console.log("Colliding with attack!");
-          this.getHit();
-          this.hit = true
-          this.velocity.x += 1
-          this.velocity.y += -15
+          if (!this.hit) {
+          this.getHit(testEnemy.lastDirection, 1, "up", 15, 200);
+          }
         }
       }
     }
+
+    dodge(direction) {
+      if (this.dead || this.stunFrames) return
+      this.stunFrames = 200
+      this.preventInput = true
+      if (direction == "right") {
+        console.log("Dodging to the right!");
+        this.velocity.x = 15
+      } else if (direction == "left") {
+        console.log("Dodging to the left!");
+        this.velocity.x = -15
+      }
+      setTimeout(() => {
+        this.velocity.x = 0
+        this.stunFrames = 0
+        keys.c.pressed = false
+      }, this.stunFrames)
+    }
   
     jump() {
-      if (this.dead) return
+      if (this.dead || this.stunFrames) return
       if (
         this.isColliding.y && 
         this.position.y !== 0
       ) this.velocity.y += -17;
     }
   
-    getHit() {
+    getHit(dx, kx, dy, ky, stun) {
       if (this.stunFrames > 0) return;
       if (this.health <= 0) {
         this.dead = true;
         console.log("Player Has Died!");
       } else {
+        this.hit = true
         this.health -= 800;
-        this.stunFrames = 20;
+        this.stunFrames = stun;
         this.preventInput = true;
+        if (dx == "left") {
+          this.velocity.x += -kx
+        } else if (dx == "right") {
+          this.velocity.x += kx
+        }
+        if (dy == "up") {
+          this.velocity.y += -ky
+        } else if (dy == "down") {
+          this.velocity.y += ky
+        }
         console.log("Player Got Hit!");
+        setTimeout(() => {
+            this.stunFrames = 0
+            this.preventInput = false
+            keys.d.pressed = false
+            keys.a.pressed = false
+            keys.w.pressed = false
+            this.hit = false
+        }, this.stunFrames)
       }
     }
   

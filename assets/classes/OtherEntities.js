@@ -31,6 +31,7 @@ class EnemyEnt {
   
       this.groundLeftLogged = false
       this.groundRightLogged = false
+
     }
   
     getEnemyData() {
@@ -116,7 +117,7 @@ class EnemyEnt {
     }
   
     checkCollisionWithHurtbox() {
-      if (!keys.k.pressed) return
+      if (!keys.k.pressed || this.stunFrames > 0) return
       try {
         if (player.lastDirection === "right") {
           if (
@@ -126,12 +127,22 @@ class EnemyEnt {
             this.position.y < player.hurtbox.groundRight.y + player.hurtbox.groundRight.height
           ) {
             console.log("colliding with attack!");
-            this.getHit()
             if (!this.hit) {
-              this.velocity.x += 5
-              this.velocity.y += -5
+              this.getHit(player.lastDirection, 8, "up", 5, 200)
               this.hit = true
               // console.log(this.hit);
+            }
+          }
+        } else if (player.lastDirection === "left") {
+          if (
+            this.position.x + this.width > player.hurtbox.groundLeft.x &&
+            this.position.x < player.hurtbox.groundLeft.x + player.hurtbox.groundLeft.width &&
+            this.position.y + this.height > player.hurtbox.groundLeft.y &&
+            this.position.y < player.hurtbox.groundLeft.y + player.hurtbox.groundLeft.height
+          ) {
+            console.log("Colliding with attack!");
+            if (!this.hit) {
+              this.getHit(player.lastDirection, 8, "up", 5, 200)
             }
           }
         }
@@ -162,7 +173,7 @@ class EnemyEnt {
       }
     }
   
-    checkIfPlayerIsAttackable() {
+    attackPlayer() {
       if (
         player.position.x + player.width > this.position.x &&
         player.position.x < this.position.x + this.width &&
@@ -173,15 +184,32 @@ class EnemyEnt {
       }
     }
   
-    getHit() {
+    getHit(dx, kx, dy, ky, stun) {
       if (this.stunFrames > 0) return
       if (this.health <= 0) {
         this.dead = true
         this.preventInput = true
       } else {
         this.dead = false
-        this.stunFrames = 20
+        this.hit = true
+        this.stunFrames = stun
+        if (dx == "left") {
+          this.velocity.x += -kx
+        } else if (dx == "right") {
+          this.velocity.x += kx
+        }
+        if (dy == "up") {
+          this.velocity.y += -ky
+        } else if (dy == "down") {
+          this.velocity.y += ky
+        }
         this.health -= 10
+        setTimeout(() => {
+          this.hit = false
+          this.preventInput = false
+          this.stunFrames = 0
+          this.velocity.x = 0
+        }, this.stunFrames)
       }
     }
   
